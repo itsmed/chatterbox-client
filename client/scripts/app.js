@@ -12,10 +12,12 @@ var message = {
 
 /////////////////////methods
 var $chats = $('#chats');
-var escaped = $(message).html()
+var escaped = $(message).html();
 //initialize app
 app.init = function (){
-  app.addMessage(message);
+  // app.addMessage(message);
+  app.addRoom('name');
+  app.fetch();
 };
 // when a button is clicked or enter is pushed
 // variable message gets .message value from user
@@ -30,11 +32,12 @@ app.addMessage = function(message) {
   // build up a html element in a variable
   var $post = $('<div></div>');
   // add the message data to the element
-  $post.text('<p><strong>'+ message.username + ':</strong> <br />' + message.text + '</p>')
-
-  $chats.append($post);
-  app.send(message);
-  app.fetch();
+  var output = ('<p><strong>'+ message.username + ':</strong>' + message.text + '</p>');
+  $post.html(output);
+  $post.appendTo(chats);
+  // $chats.append($post);
+  // app.send(message);
+  // app.fetch();
   // console.log($(chats).html(escaped));
 };
 
@@ -42,11 +45,13 @@ app.clearMessages = function() {
   $(chats).html('');
 };
 
-app.addRoom = function() {
-
+app.addRoom = function(name){
+  $('#roomSelect').on('click', function() {
+    console.log('click', this);
+  });
 };
 
-;//enables user to send messages
+//enables user to send messages
 app.send = function(data){
   //method to submit POST request data to server
   $.ajax({
@@ -68,14 +73,18 @@ app.fetch = function(data){
   //method to submit GET request to server
   // console.log('data from fetch', data);
   $.ajax({
-    url: undefined,
+    url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'GET',
     data: JSON,
     contentType: 'application/json',
     success: function (data) {
             // prepend the variable to the DOM
-      // console.log('data in fetch', data);
+      console.log('data in fetch', data.results[0]);
       console.log('chatterbox: Message received', data);
+      for(var i = 0; i < data.results.length; i++) {
+        app.addMessage(data.results[i]);
+        
+      }
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
