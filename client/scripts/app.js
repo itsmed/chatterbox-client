@@ -4,38 +4,35 @@ var app = {};
 
 
 //object containing message properties
-var message = {
-  username: 'shawndrost',
-  text: 'trololo',
-  roomname: '4chan'
-};
+// var message = {
+//   username: 'shawndrost',
+//   text: 'trololo',
+//   roomname: '4chan'
+// };
 
 /////////////////////methods
 var $chats = $('#chats');
-var escaped = $(message).html()
+
 //initialize app
 app.init = function (){
-  app.addMessage(message);
+  // app.addMessage();
+  // app.fetch();
+  // app.send();
 };
-// when a button is clicked or enter is pushed
-// variable message gets .message value from user
-// add message to chats
-// add message to server
-// refresh new chats?
-app.addMessage = function(message) {
-  // $chats.html('');
-  // console.log("this in the addMess", this);
-  // get the message JSON String
-  // console.log('message', this);
-  // build up a html element in a variable
-  var $post = $('<div></div>');
-  // add the message data to the element
-  $post.text('<p><strong>'+ message.username + ':</strong> <br />' + message.text + '</p>')
 
-  $chats.append($post);
-  app.send(message);
-  app.fetch();
-  // console.log($(chats).html(escaped));
+$('.submit').click(function() {
+
+  var message = $('#messageInput').val();
+  $('#messageInput').val('');
+  app.addMessage(message);
+});
+
+//listener for click event
+app.addMessage = function(message) {
+  //user enters text
+  //escape text
+  //statement that appends message to chats element in DOM
+  $(message).appendTo('#chats');
 };
 
 app.clearMessages = function() {
@@ -46,7 +43,7 @@ app.addRoom = function() {
 
 };
 
-;//enables user to send messages
+//settimeout
 app.send = function(data){
   //method to submit POST request data to server
   $.ajax({
@@ -62,20 +59,21 @@ app.send = function(data){
       console.error('chatterbox: Failed to send message');
     }
   });
-
 };
+
+//set timeout
 app.fetch = function(data){
   //method to submit GET request to server
   // console.log('data from fetch', data);
   $.ajax({
-    url: undefined,
+    url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'GET',
     data: JSON,
     contentType: 'application/json',
     success: function (data) {
-            // prepend the variable to the DOM
+      // prepend the variable to the DOM
       // console.log('data in fetch', data);
-      console.log('chatterbox: Message received', data);
+      console.log('chatterbox: Message received', data.results);
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
