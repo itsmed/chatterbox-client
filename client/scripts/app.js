@@ -4,37 +4,6 @@ var app = {};
 
 
 //object containing message properties
-<<<<<<< HEAD
-// var message = {
-//   username: 'shawndrost',
-//   text: 'trololo',
-//   roomname: '4chan'
-// };
-
-/////////////////////methods
-var $chats = $('#chats');
-
-//initialize app
-app.init = function (){
-  // app.addMessage();
-  // app.fetch();
-  // app.send();
-};
-
-$('.submit').click(function() {
-
-  var message = $('#messageInput').val();
-  $('#messageInput').val('');
-  app.addMessage(message);
-});
-
-//listener for click event
-app.addMessage = function(message) {
-  //user enters text
-  //escape text
-  //statement that appends message to chats element in DOM
-  $(message).appendTo('#chats');
-=======
 var message = {
   username: 'shawndrost',
   text: 'trololo',
@@ -68,7 +37,6 @@ app.addMessage = function(message) {
   var output = (message.username + ': ' + message.text);
   $post.text(output);
   $post.prependTo(chats);
->>>>>>> 942f501d02dc31fc86a389636e49352397839a9d
 };
 
 app.clearMessages = function() {
@@ -81,11 +49,7 @@ app.addRoom = function(name){
   });
 };
 
-<<<<<<< HEAD
-//settimeout
-=======
-//enables user to send messages
->>>>>>> 942f501d02dc31fc86a389636e49352397839a9d
+// enables user to send messages
 app.send = function(data){
   //method to submit POST request data to server
   $.ajax({
@@ -102,34 +66,22 @@ app.send = function(data){
     }
   });
 };
-
-//set timeout
 app.fetch = function(data){
   //method to submit GET request to server
   // console.log('data from fetch', data);
   $.ajax({
-<<<<<<< HEAD
-    url: 'https://api.parse.com/1/classes/chatterbox',
-=======
     url: app.server,
->>>>>>> 942f501d02dc31fc86a389636e49352397839a9d
     type: 'GET',
     data: JSON,
     contentType: 'application/json',
     success: function (data) {
-<<<<<<< HEAD
       // prepend the variable to the DOM
-      // console.log('data in fetch', data);
-      console.log('chatterbox: Message received', data.results);
-=======
-            // prepend the variable to the DOM
       console.log('data in fetch', data.results[0]);
       console.log('chatterbox: Message received', data);
       for(var i = 0; i < data.results.length; i++) {
         app.addMessage(data.results[i]);
         
       }
->>>>>>> 942f501d02dc31fc86a389636e49352397839a9d
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
