@@ -1,16 +1,18 @@
 body {
-    background: #eee;
+    background: url("../images/logo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
 }
 
 #main {
-    width: 500px;
+    /*width: 500px;*/
     margin: auto;
-    text-align: left;
+    text-align: center;
     background: white;
-    padding: 50px 60px;
+    /*padding: 50px 60px;*/
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
 }
@@ -26,6 +28,19 @@ body {
     font-style:italic;
 }
 
+header {
+  min-height: 75px;
+  max-width: 50px;
+  padding: 2px;
+}
+.navbar-brand {
+  display: block;
+  max-height: 100px;
+  min-height: 100px;
+}
+.input-group {
+  margin: 5px;
+}
 #main ul {
     padding-left: 20px;
 }

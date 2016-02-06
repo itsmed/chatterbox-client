@@ -11,20 +11,48 @@ var message = {
 };
 
 /////////////////////methods
-
+var $chats = $('#chats');
 var escaped = $(message).html()
 //initialize app
 app.init = function (){
+  app.addMessage(message);
+};
+// when a button is clicked or enter is pushed
+// variable message gets .message value from user
+// add message to chats
+// add message to server
+// refresh new chats?
+app.addMessage = function(message) {
+  // $chats.html('');
+  // console.log("this in the addMess", this);
+  // get the message JSON String
+  // console.log('message', this);
+  // build up a html element in a variable
+  var $post = $('<div></div>');
+  // add the message data to the element
+  $post.text('<p><strong>'+ message.username + ':</strong> <br />' + message.text + '</p>')
+
+  $chats.append($post);
+  app.send(message);
+  app.fetch();
+  // console.log($(chats).html(escaped));
+};
+
+app.clearMessages = function() {
+  $(chats).html('');
+};
+
+app.addRoom = function() {
 
 };
 
 ;//enables user to send messages
-app.send = function(escaped){
+app.send = function(data){
   //method to submit POST request data to server
   $.ajax({
     url:'https://api.parse.com/1/classes/chatterbox',
     type: 'POST',
-    data: JSON.stringify(escaped),
+    data: JSON.stringify(data),
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
@@ -35,23 +63,25 @@ app.send = function(escaped){
     }
   });
 
-
-
 };
-
 app.fetch = function(data){
   //method to submit GET request to server
+  // console.log('data from fetch', data);
   $.ajax({
     url: undefined,
     type: 'GET',
     data: JSON,
     contentType: 'application/json',
     success: function (data) {
-      console.log('chatterbox: Message received');
+            // prepend the variable to the DOM
+      // console.log('data in fetch', data);
+      console.log('chatterbox: Message received', data);
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to receive message');
     }
   });
+
 };
+app.init();
