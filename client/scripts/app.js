@@ -9,36 +9,34 @@ var message = {
   text: 'trololo',
   roomname: '4chan'
 };
+$(document).ready(function(){
+  $('.form-control').keypress(function(e) {
+    if (e.which === 13) {
+      var temp = $('.form-control').val();
+      console.log(temp);
+      $('.form-control').val('');
+    }
+  });
+  
+});
 
 /////////////////////methods
 var $chats = $('#chats');
 var escaped = $(message).html();
 //initialize app
 app.init = function (){
-  // app.addMessage(message);
   app.addRoom('name');
   app.fetch();
 };
-// when a button is clicked or enter is pushed
-// variable message gets .message value from user
-// add message to chats
-// add message to server
-// refresh new chats?
+
+app.server = 'https://api.parse.com/1/classes/chatterbox';
+
 app.addMessage = function(message) {
-  // $chats.html('');
-  // console.log("this in the addMess", this);
-  // get the message JSON String
-  // console.log('message', this);
-  // build up a html element in a variable
+  app.clearMessages();
   var $post = $('<div></div>');
-  // add the message data to the element
-  var output = ('<p><strong>'+ message.username + ':</strong>' + message.text + '</p>');
-  $post.html(output);
-  $post.appendTo(chats);
-  // $chats.append($post);
-  // app.send(message);
-  // app.fetch();
-  // console.log($(chats).html(escaped));
+  var output = (message.username + ': ' + message.text);
+  $post.text(output);
+  $post.prependTo(chats);
 };
 
 app.clearMessages = function() {
@@ -55,7 +53,7 @@ app.addRoom = function(name){
 app.send = function(data){
   //method to submit POST request data to server
   $.ajax({
-    url:'https://api.parse.com/1/classes/chatterbox',
+    url: app.server,
     type: 'POST',
     data: JSON.stringify(data),
     contentType: 'application/json',
@@ -73,7 +71,7 @@ app.fetch = function(data){
   //method to submit GET request to server
   // console.log('data from fetch', data);
   $.ajax({
-    url: 'https://api.parse.com/1/classes/chatterbox',
+    url: app.server,
     type: 'GET',
     data: JSON,
     contentType: 'application/json',
@@ -93,4 +91,5 @@ app.fetch = function(data){
   });
 
 };
+
 app.init();
